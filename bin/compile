@@ -12,10 +12,21 @@ if [ ! -f "${ENV_DIR}/APP_BASE" ]; then
     echo "APP_BASE was not set. Aborting" | indent
     exit 1
 fi
+if [ ! -f "${ENV_DIR}/SHARED_BASE" ]; then
+    echo "SHARED_BASE was not set. Aborting" | indent
+    exit 1
+fi
 APP_BASE="$(cat "${ENV_DIR}/APP_BASE")"
+SHARED_BASE="$(cat "${ENV_DIR}/SHARED_BASE")"
+echo "APP_BASE ${APP_BASE}"
+echo "SHARED_BASE ${SHARED_BASE}"
+echo "STAGE $STAGE"
+FROM_DIR="${BUILD_DIR}/${APP_BASE}"
+echo "FROM_DIR $FROM_DIR"
 
 (
-    mv "${BUILD_DIR}/${APP_BASE}" "${STAGE}" &&
+    mv FROM_DIR "${STAGE}" &&
+    mv "${BUILD_DIR}/${SHARED_BASE}" "${STAGE}/shared" &&
     rm -rf "${BUILD_DIR}" &&
     mv "${STAGE}/$(basename "$APP_BASE")" "${BUILD_DIR}"
 )
