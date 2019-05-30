@@ -25,7 +25,7 @@ FROM_DIR="${BUILD_DIR}/${APP_BASE}"
 echo "FROM_DIR $FROM_DIR"
 
 (
-    mv FROM_DIR "${STAGE}" &&
+    mv "$FROM_DIR" "${STAGE}" &&
     mv "${BUILD_DIR}/${SHARED_BASE}" "${STAGE}/shared" &&
     rm -rf "${BUILD_DIR}" &&
     mv "${STAGE}/$(basename "$APP_BASE")" "${BUILD_DIR}"
